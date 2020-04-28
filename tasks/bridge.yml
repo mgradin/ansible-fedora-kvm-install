@@ -17,7 +17,6 @@
     - bridge_slave != "br0"
 
 - name: setup bridge slave "{{ bridge_slave }}"
-  command: nmcli con add type bridge-slave ifname "{{ bridge_slave }}" master br0
   nmcli:
     type: bridge-slave
     conn_name: "{{ bridge_slave }}"
