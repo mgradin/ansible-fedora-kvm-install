@@ -1,0 +1,28 @@
+- set_fact:
+    bridge_slave: "{{ ansible_default_ipv4.interface }}"
+
+- name: install needed network manager libs
+  dnf:
+    name: [ bridge-utils, python-dbus, libselinux-python]
+    state: installed
+
+- name: setup bridge
+  nmcli:
+    type: bridge
+    conn_name: br0
+    state: present
+    autoconnect: yes
+    stp: no
+  when:
+    - bridge_slave != "br0"
+
+- name: setup bridge slave {{ bridge_slave }}
+  command: nmcli con add type bridge-slave ifname "{{ bridge_slave }}" master br0
+  nmcli:
+    type: bridge-slave
+    conn_name: "{{ bridge_slave }}"
+    state: present
+    autoconnect: yes
+    master: br0
+  when:
+    - bridge_slave != "br0"

@@ -7,3 +7,6 @@
 - import_tasks: service.yml
   become: true
 
+- import_tasks: bridge.yml
+  become: true
+
