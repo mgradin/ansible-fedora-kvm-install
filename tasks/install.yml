@@ -1,4 +1,4 @@
-- name: Install required packages for KVM and QEMU
+- name: Install required packages for KVM/QEMU and cockpit-machines module 
   dnf:
-    name: [ qemu-kvm, libvirt, virt-install ]
+    name: [ qemu-kvm, libvirt, virt-install, cockpit-machines ]
     state: installed
