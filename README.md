@@ -22,10 +22,11 @@ None
 Example Playbook
 ----------------
 
-
-    - hosts: servers
-      roles:
-         - { role: username.rolename, x: 42 }
+- hosts: srv01
+  roles:
+    - role:  ansible-fedora-kvm-install
+      tags: [ kvm ]
+      become: yes
 
 License
 -------
