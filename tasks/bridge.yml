@@ -7,21 +7,39 @@
     state: installed
 
 - name: setup bridge
-  nmcli:
-    type: bridge
-    conn_name: br0
-    state: present
-    autoconnect: yes
-    stp: no
+  command: nmcli connection add type bridge autoconnect yes con-name br0 ifname br0
+  #nmcli:
+  #  type: bridge
+  #  conn_name: br0
+  #  state: present
+  #  autoconnect: yes
+  #  stp: no
   when:
     - bridge_slave != "br0"
 
 - name: setup bridge slave "{{ bridge_slave }}"
-  nmcli:
-    type: bridge-slave
-    conn_name: "{{ bridge_slave }}"
-    state: present
-    autoconnect: yes
-    master: br0
+  command: nmcli con add type bridge-slave ifname "{{ bridge_slave }}" master br0
+  #nmcli:
+  #  type: bridge-slave
+  #  conn_name: "{{ bridge_slave }}"
+  #  state: present
+  #  autoconnect: yes
+  #  master: br0
   when:
     - bridge_slave != "br0"
+
+- name: turn off "{{ bridge_slave }}" and turn on br0
+  shell: nmcli con down "{{ bridge_slave }}" && nmcli con up br0
+  when:
+    - bridge_slave != "br0"
+
+- name: disable STP
+  command: nmcli con modify br0 bridge.stp no
+  when:
+    - bridge_slave != "br0"
+
+- name: delete "{{ bridge_slave }}"
+  command: nmcli con del "{{ bridge_slave }}"
+  when:
+    - bridge_slave != "br0"
+
