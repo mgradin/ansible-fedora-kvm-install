@@ -1,0 +1,7 @@
+---
+# tasks file for ansible-fedora-kvm-install
+- import_tasks: install.yml
+  become: true
+  #- import_tasks: config.yml
+  #become: true
+

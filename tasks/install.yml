@@ -1,0 +1,4 @@
+- name: Install required packages for KVM and QEMU
+  dnf:
+    name: [ qemu-kvm, libvirt, virt-install ]
+    state: installed
