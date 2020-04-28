@@ -4,4 +4,6 @@
   become: true
   #- import_tasks: config.yml
   #become: true
+- import_tasks: service.yml
+  become: true
 
